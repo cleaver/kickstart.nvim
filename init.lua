@@ -190,6 +190,10 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Move Lines up/down
+vim.keymap.set('n', '<A-down>', ':m +1<CR>', { desc = 'Move line down' })
+vim.keymap.set('n', '<A-up>', ':m -2<CR>', { desc = 'Move line down' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -384,11 +388,17 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          mappings = {
+            n = {
+              ['<c-d>'] = require('telescope.actions').delete_buffer,
+            },
+            i = {
+              ['<c-enter>'] = 'to_fuzzy_refine',
+              ['<c-d>'] = require('telescope.actions').delete_buffer,
+            },
+          },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -696,10 +706,11 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true }, { 'eslint_d', 'eslint', stop_after_first = true } },
+        typescript = { { 'prettierd', 'prettier', stop_after_first = true }, { 'eslint_d', 'eslint', stop_after_first = true },
       },
     },
   },
@@ -896,12 +907,36 @@ require('lazy').setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+    config = function(_, opts)
+      -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+
+      -- Prefer git instead of curl in order to improve connectivity in some environments
+      require('nvim-treesitter.install').prefer_git = true
+      ---@diagnostic disable-next-line: missing-fields
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = { 'bash', 'c', 'elixir', 'eex', 'heex', 'html', 'javascript', 'json', 'lua', 'markdown', 'typescript', 'vim', 'vimdoc' },
+        -- Autoinstall languages that are not installed
+        auto_install = true,
+        highlight = { enable = true },
+        indent = { enable = true },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = '<c-space>',
+            node_incremental = '<c-space>',
+            scope_incremental = '<c-s>',
+            node_decremental = '<c-backspace>',
+          },
+        },
+      }
+
+      -- There are additional nvim-treesitter modules that you can use to interact
+      -- with nvim-treesitter. You should go explore a few and see what interests you:
+      --
+      --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
+      --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+      --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+    end,
   },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
@@ -925,7 +960,7 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
@@ -947,6 +982,19 @@ require('lazy').setup({
     },
   },
 })
+
+-- Custom commands
+vim.api.nvim_create_user_command('Format', function(args)
+  local range = nil
+  if args.count ~= -1 then
+    local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+    range = {
+      start = { args.line1, 0 },
+      ['end'] = { args.line2, end_line:len() },
+    }
+  end
+  require('conform').format { async = true, lsp_fallback = true, range = range }
+end, { range = true })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
