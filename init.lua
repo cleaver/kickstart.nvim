@@ -155,7 +155,7 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 30
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -782,7 +782,7 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<CR>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
@@ -995,6 +995,16 @@ vim.api.nvim_create_user_command('Format', function(args)
   end
   require('conform').format { async = true, lsp_fallback = true, range = range }
 end, { range = true })
+
+local term_clear = function()
+  vim.fn.feedkeys('^L', 'n')
+  local sb = vim.bo.scrollback
+  vim.bo.scrollback = 1
+  vim.bo.scrollback = sb
+end
+
+vim.keymap.set('t', '<C-l>', term_clear)
+vim.keymap.set('n', '<C-l>', term_clear)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
