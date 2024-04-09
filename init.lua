@@ -83,6 +83,8 @@ I hope you enjoy your Neovim journey,
 
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
+-- Get node to work with nvim-lsp
+vim.env.PATH = ':~/.nvm/versions/node/v20.10.0/bin' .. vim.env.PATH
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -627,7 +629,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        tsserver = {},
         --
 
         lua_ls = {
@@ -709,6 +711,7 @@ require('lazy').setup({
         python = { 'isort', 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
+        javascriptreact = { { 'prettierd', 'prettier' }, { 'eslint_d', 'eslint' } },
         javascript = { 'prettierd', 'prettier', stop_after_first = true }, { 'eslint_d', 'eslint', stop_after_first = true } },
         typescript = { { 'prettierd', 'prettier', stop_after_first = true }, { 'eslint_d', 'eslint', stop_after_first = true },
       },
@@ -1005,6 +1008,15 @@ end
 
 vim.keymap.set('t', '<C-l>', term_clear)
 vim.keymap.set('n', '<C-l>', term_clear)
+
+local toggle_relnum = function()
+  vim.cmd [[setlocal relativenumber!]]
+end
+
+vim.keymap.set('n', '<leader>n', toggle_relnum, { desc = 'Toggle relative number' })
+
+-- luasnip vs_code
+require('luasnip.loaders.from_vscode').lazy_load()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
