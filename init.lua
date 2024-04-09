@@ -83,6 +83,8 @@ I hope you enjoy your Neovim journey,
 
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
+-- Get node to work with nvim-lsp
+vim.env.PATH = ':~/.nvm/versions/node/v20.10.0/bin' .. vim.env.PATH
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -164,7 +166,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+vim.keymap.set('n', '<leader>E', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -585,7 +587,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        tsserver = {},
         --
 
         lua_ls = {
@@ -667,6 +669,7 @@ require('lazy').setup({
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
+        javascriptreact = { { 'prettierd', 'prettier' }, { 'eslint_d', 'eslint' } },
         javascript = { { 'prettierd', 'prettier' }, { 'eslint_d', 'eslint' } },
         typescript = { { 'prettierd', 'prettier' }, { 'eslint_d', 'eslint' } },
       },
@@ -956,6 +959,15 @@ end
 
 vim.keymap.set('t', '<C-l>', term_clear)
 vim.keymap.set('n', '<C-l>', term_clear)
+
+local toggle_relnum = function()
+  vim.cmd [[setlocal relativenumber!]]
+end
+
+vim.keymap.set('n', '<leader>n', toggle_relnum, { desc = 'Toggle relative number' })
+
+-- luasnip vs_code
+require('luasnip.loaders.from_vscode').lazy_load()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
