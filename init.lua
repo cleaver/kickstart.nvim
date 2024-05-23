@@ -630,7 +630,8 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
         tsserver = {},
-        --
+        -- tailwind
+        tailwindcss = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -714,6 +715,7 @@ require('lazy').setup({
         javascriptreact = { { 'prettierd', 'prettier' }, { 'eslint_d', 'eslint' } },
         javascript = { 'prettierd', 'prettier', stop_after_first = true }, { 'eslint_d', 'eslint', stop_after_first = true } },
         typescript = { { 'prettierd', 'prettier', stop_after_first = true }, { 'eslint_d', 'eslint', stop_after_first = true },
+        typescriptreact = { { 'prettierd', 'prettier' }, { 'eslint_d', 'eslint' } },
       },
     },
   },
@@ -1014,6 +1016,26 @@ local toggle_relnum = function()
 end
 
 vim.keymap.set('n', '<leader>n', toggle_relnum, { desc = 'Toggle relative number' })
+
+-- TS Organize Imports
+local function organize_imports()
+  local params = {
+    command = '_typescript.organizeImports',
+    arguments = { vim.api.nvim_buf_get_name(0) },
+    title = '',
+  }
+  vim.lsp.buf.execute_command(params)
+end
+
+local lspconfig = require 'lspconfig'
+lspconfig.tsserver.setup {
+  commands = {
+    OrganizeImports = {
+      organize_imports,
+      description = 'Organize Imports',
+    },
+  },
+}
 
 -- luasnip vs_code
 require('luasnip.loaders.from_vscode').lazy_load()
