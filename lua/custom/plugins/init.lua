@@ -111,6 +111,9 @@ return {
       -- refer to the configuration section below
     },
   },
-  { 'williamboman/mason-lspconfig.nvim' },
-  { 'neovim/nvim-lspconfig' },
+  {
+    'olimorris/persisted.nvim',
+    lazy = false,
+    config = true,
+  },
 }
