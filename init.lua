@@ -157,7 +157,7 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 30
+vim.opt.scrolloff = 5
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -629,7 +629,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        tsserver = {},
+        -- tsserver = {},
         -- tailwind
         tailwindcss = {},
 
@@ -954,7 +954,7 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
@@ -1018,24 +1018,27 @@ end
 vim.keymap.set('n', '<leader>n', toggle_relnum, { desc = 'Toggle relative number' })
 
 -- TS Organize Imports
-local function organize_imports()
-  local params = {
-    command = '_typescript.organizeImports',
-    arguments = { vim.api.nvim_buf_get_name(0) },
-    title = '',
-  }
-  vim.lsp.buf.execute_command(params)
-end
+-- local function organize_imports()
+--   local params = {
+--     command = '_typescript.organizeImports',
+--     arguments = { vim.api.nvim_buf_get_name(0) },
+--     title = '',
+--   }
+--   vim.lsp.buf.execute_command(params)
+-- end
+--
+-- local lspconfig = require 'lspconfig'
+-- lspconfig.tsserver.setup {
+--   commands = {
+--     OrganizeImports = {
+--       organize_imports,
+--       description = 'Organize Imports',
+--     },
+--   },
+-- }
 
-local lspconfig = require 'lspconfig'
-lspconfig.tsserver.setup {
-  commands = {
-    OrganizeImports = {
-      organize_imports,
-      description = 'Organize Imports',
-    },
-  },
-}
+-- inlay hints
+vim.lsp.inlay_hint.enable(false)
 
 -- luasnip vs_code
 require('luasnip.loaders.from_vscode').lazy_load()
