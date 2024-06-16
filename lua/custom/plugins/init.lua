@@ -116,4 +116,14 @@ return {
     lazy = false,
     config = true,
   },
+  {
+    'luckasRanarison/tailwind-tools.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    opts = {}, -- your configuration
+  },
+  {
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    opts = {},
+  },
 }
