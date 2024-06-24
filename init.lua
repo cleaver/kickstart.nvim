@@ -326,6 +326,7 @@ require('lazy').setup({
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
+        { '<leader>t', group = '[T]ypeScript' },
         { '<leader>w', group = '[W]orkspace' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
@@ -919,7 +920,21 @@ require('lazy').setup({
       require('nvim-treesitter.install').prefer_git = true
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'bash', 'c', 'elixir', 'eex', 'heex', 'html', 'javascript', 'json', 'lua', 'markdown', 'typescript', 'vim', 'vimdoc' },
+        ensure_installed = {
+          'bash',
+          'c',
+          'elixir',
+          'eex',
+          'heex',
+          'html',
+          'javascript',
+          'json',
+          'lua',
+          'markdown',
+          'typescript',
+          'vim',
+          'vimdoc',
+        },
         -- Autoinstall languages that are not installed
         auto_install = true,
         highlight = { enable = true },
@@ -1009,33 +1024,12 @@ local term_clear = function()
 end
 
 vim.keymap.set('t', '<C-l>', term_clear)
-vim.keymap.set('n', '<C-l>', term_clear)
 
 local toggle_relnum = function()
   vim.cmd [[setlocal relativenumber!]]
 end
 
 vim.keymap.set('n', '<leader>n', toggle_relnum, { desc = 'Toggle relative number' })
-
--- TS Organize Imports
--- local function organize_imports()
---   local params = {
---     command = '_typescript.organizeImports',
---     arguments = { vim.api.nvim_buf_get_name(0) },
---     title = '',
---   }
---   vim.lsp.buf.execute_command(params)
--- end
---
--- local lspconfig = require 'lspconfig'
--- lspconfig.tsserver.setup {
---   commands = {
---     OrganizeImports = {
---       organize_imports,
---       description = 'Organize Imports',
---     },
---   },
--- }
 
 -- inlay hints
 vim.lsp.inlay_hint.enable(false)
