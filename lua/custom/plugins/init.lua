@@ -89,6 +89,9 @@ return {
             enableTestLenses = false,
           },
           on_attach = function(client, bufnr)
+            require('which-key').register {
+              ['<leader>x'] = { name = 'Eli[x]ir', _ = 'which_key_ignore' },
+            }
             vim.keymap.set('n', '<space>xP', ':ElixirFromPipe<cr>', { buffer = true, noremap = true })
             vim.keymap.set('n', '<space>xp', ':ElixirToPipe<cr>', { buffer = true, noremap = true })
             vim.keymap.set('n', '<space>xr', ':ElixirRestart<cr>', { buffer = true, noremap = true })
@@ -124,6 +127,23 @@ return {
   {
     'pmizio/typescript-tools.nvim',
     dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-    opts = {},
+    opts = {
+      on_attach = function(client, bufnr)
+        vim.keymap.set('n', '<leader>to', '<cmd>TSToolsOrganizeImports<cr>', { desc = '[o]rganize Imports' })
+        vim.keymap.set('n', '<leader>ts', '<cmd>TSToolsSortImports<cr>', { desc = '[s]ort Imports' })
+        vim.keymap.set('n', '<leader>tr', '<cmd>TSToolsRemoveUnused<cr>', { desc = '[r]emove Unused' })
+        vim.keymap.set('n', '<leader>tR', '<cmd>TSToolsRenameFile<cr>', { desc = '[R]ename File' })
+        vim.keymap.set('n', '<leader>tf', '<cmd>TSToolsFixAll<cr>', { desc = '[f]ix All' })
+        vim.keymap.set('n', '<leader>tF', '<cmd>TSToolsFileReferences<cr>', { desc = 'Rename [F]ile' })
+      end,
+    },
+    -- keys = {
+    -- { '<leader>to', '<cmd>TSToolsOrganizeImports<cr>', desc = '[o]rganize Imports' },
+    -- { '<leader>ts', '<cmd>TSToolsSortImports<cr>', desc = '[s]ort Imports' },
+    -- { '<leader>tr', '<cmd>TSToolsRemoveUnused<cr>', desc = '[r]emove Unused' },
+    -- { '<leader>tR', '<cmd>TSToolsRenameFile<cr>', desc = '[R]ename File' },
+    -- { '<leader>tf', '<cmd>TSToolsFixAll<cr>', desc = '[f]ix All' },
+    -- { '<leader>tF', '<cmd>TSToolsFileReferences<cr>', desc = 'Rename [F]ile' },
+    -- },
   },
 }
