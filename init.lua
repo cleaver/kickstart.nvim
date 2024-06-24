@@ -291,6 +291,8 @@ require('lazy').setup({
         ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
         ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+        ['<leader>t'] = { name = '[T]ypeScript', _ = 'which_key_ignore' },
+        ['<leader>T'] = { name = '[T]est', _ = 'which_key_ignore' },
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
         ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
         ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
@@ -870,7 +872,21 @@ require('lazy').setup({
       require('nvim-treesitter.install').prefer_git = true
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'bash', 'c', 'elixir', 'eex', 'heex', 'html', 'javascript', 'json', 'lua', 'markdown', 'typescript', 'vim', 'vimdoc' },
+        ensure_installed = {
+          'bash',
+          'c',
+          'elixir',
+          'eex',
+          'heex',
+          'html',
+          'javascript',
+          'json',
+          'lua',
+          'markdown',
+          'typescript',
+          'vim',
+          'vimdoc',
+        },
         -- Autoinstall languages that are not installed
         auto_install = true,
         highlight = { enable = true },
@@ -960,33 +976,12 @@ local term_clear = function()
 end
 
 vim.keymap.set('t', '<C-l>', term_clear)
-vim.keymap.set('n', '<C-l>', term_clear)
 
 local toggle_relnum = function()
   vim.cmd [[setlocal relativenumber!]]
 end
 
 vim.keymap.set('n', '<leader>n', toggle_relnum, { desc = 'Toggle relative number' })
-
--- TS Organize Imports
--- local function organize_imports()
---   local params = {
---     command = '_typescript.organizeImports',
---     arguments = { vim.api.nvim_buf_get_name(0) },
---     title = '',
---   }
---   vim.lsp.buf.execute_command(params)
--- end
---
--- local lspconfig = require 'lspconfig'
--- lspconfig.tsserver.setup {
---   commands = {
---     OrganizeImports = {
---       organize_imports,
---       description = 'Organize Imports',
---     },
---   },
--- }
 
 -- inlay hints
 vim.lsp.inlay_hint.enable(false)
