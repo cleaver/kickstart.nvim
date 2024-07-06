@@ -137,31 +137,33 @@ return {
         vim.keymap.set('n', '<leader>tF', '<cmd>TSToolsFileReferences<cr>', { desc = 'Rename [F]ile' })
       end,
     },
-    -- keys = {
-    -- { '<leader>to', '<cmd>TSToolsOrganizeImports<cr>', desc = '[o]rganize Imports' },
-    -- { '<leader>ts', '<cmd>TSToolsSortImports<cr>', desc = '[s]ort Imports' },
-    -- { '<leader>tr', '<cmd>TSToolsRemoveUnused<cr>', desc = '[r]emove Unused' },
-    -- { '<leader>tR', '<cmd>TSToolsRenameFile<cr>', desc = '[R]ename File' },
-    -- { '<leader>tf', '<cmd>TSToolsFixAll<cr>', desc = '[f]ix All' },
-    -- { '<leader>tF', '<cmd>TSToolsFileReferences<cr>', desc = 'Rename [F]ile' },
-    -- },
   },
   {
     'ellisonleao/gruvbox.nvim',
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      require('gruvbox').setup {
-        contrast = 'hard',
-        overrides = {
-          Function = { link = 'GruvboxGreen' },
-        },
-      }
-      -- Load the colorscheme here
-      vim.cmd.colorscheme 'gruvbox'
-    end,
+    -- lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    -- priority = 1000, -- make sure to load this before all the other start plugins
+    -- config = function()
+    --   require('gruvbox').setup {
+    --     contrast = 'hard',
+    --     overrides = {
+    --       Function = { link = 'GruvboxGreen' },
+    --     },
+    --   }
+    --   -- Load the colorscheme here
+    --   vim.cmd.colorscheme 'gruvbox'
+    -- end,
   },
   {
     'olimorris/onedarkpro.nvim',
+  },
+  {
+    'sainnhe/gruvbox-material',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.g.gruvbox_material_background = 'hard'
+      vim.g.gruvbox_material_palette = 'material'
+      vim.cmd.colorscheme 'gruvbox-material'
+    end,
   },
 }
