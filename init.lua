@@ -84,7 +84,7 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 -- Get node to work with nvim-lsp
-vim.env.PATH = ':~/.nvm/versions/node/v20.10.0/bin' .. vim.env.PATH
+vim.env.PATH = '~/.nvm/versions/node/v20.10.0/bin:' .. vim.env.PATH
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -1032,7 +1032,7 @@ end
 vim.keymap.set('n', '<leader>n', toggle_relnum, { desc = 'Toggle relative number' })
 
 -- inlay hints
-vim.lsp.inlay_hint.enable(false)
+-- vim.lsp.inlay_hint.enable(false)
 
 -- luasnip vs_code
 require('luasnip.loaders.from_vscode').lazy_load()
