@@ -98,6 +98,26 @@ return {
             vim.keymap.set('n', '<space>xa', ':Elixir nextls alias-refactor<cr>', { desc = '[a]lias refactor', buffer = true, noremap = true })
             vim.keymap.set('n', '<space>xf', ':Elixir nextls from-pipe<cr>', { desc = '[f]rom pipe', buffer = true, noremap = true })
             vim.keymap.set('n', '<space>xt', ':Elixir nextls to-pipe<cr>', { desc = '[t]o pipe', buffer = true, noremap = true })
+
+            require('lspconfig').tailwindcss.setup {
+              filetypes = { 'html', 'elixir', 'eelixir', 'heex' },
+              init_options = {
+                userLanguages = {
+                  elixir = 'html-eex',
+                  eelixir = 'html-eex',
+                  heex = 'html-eex',
+                },
+              },
+              settings = {
+                tailwindCSS = {
+                  experimental = {
+                    classRegex = {
+                      'class[:]\\s*"([^"]*)"',
+                    },
+                  },
+                },
+              },
+            }
           end,
         },
         credo = {},
