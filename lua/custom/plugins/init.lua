@@ -12,43 +12,43 @@ return {
       ]]
     end,
   },
-  {
-    'vim-test/vim-test',
-    config = function()
-      vim.cmd [[
-        function! BufferTermStrategy(cmd)
-          exec 'te ' . a:cmd
-        endfunction
-
-        let g:test#custom_strategies = {'bufferterm': function('BufferTermStrategy')}
-        let g:test#strategy = 'bufferterm'
-      ]]
-    end,
-    keys = {
-      { '<leader>Tf', '<cmd>TestFile<cr>', silent = true, desc = 'Run this file' },
-      { '<leader>Tn', '<cmd>TestNearest<cr>', silent = true, desc = 'Run nearest test' },
-      { '<leader>Tl', '<cmd>TestLast<cr>', silent = true, desc = 'Run last test' },
-    },
-  },
-  {
-    'mfussenegger/nvim-lint',
-    config = function()
-      local lint = require 'lint'
-
-      -- lint.linters_by_ft = {
-      --   elixir = { 'credo' },
-      -- }
-
-      local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
-
-      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
-        group = lint_augroup,
-        callback = function()
-          lint.try_lint()
-        end,
-      })
-    end,
-  },
+  -- {
+  --   'vim-test/vim-test',
+  --   config = function()
+  --     vim.cmd [[
+  --       function! BufferTermStrategy(cmd)
+  --         exec 'te ' . a:cmd
+  --       endfunction
+  --
+  --       let g:test#custom_strategies = {'bufferterm': function('BufferTermStrategy')}
+  --       let g:test#strategy = 'bufferterm'
+  --     ]]
+  --   end,
+  --   keys = {
+  --     { '<leader>Tf', '<cmd>TestFile<cr>', silent = true, desc = 'Run this file' },
+  --     { '<leader>Tn', '<cmd>TestNearest<cr>', silent = true, desc = 'Run nearest test' },
+  --     { '<leader>Tl', '<cmd>TestLast<cr>', silent = true, desc = 'Run last test' },
+  --   },
+  -- },
+  -- {
+  --   'mfussenegger/nvim-lint',
+  --   config = function()
+  --     local lint = require 'lint'
+  --
+  --     -- lint.linters_by_ft = {
+  --     --   elixir = { 'credo' },
+  --     -- }
+  --
+  --     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
+  --
+  --     vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
+  --       group = lint_augroup,
+  --       callback = function()
+  --         lint.try_lint()
+  --       end,
+  --     })
+  --   end,
+  -- },
   {
     'stevearc/oil.nvim',
     opts = {},
@@ -80,46 +80,46 @@ return {
       local elixirls = require 'elixir.elixirls'
 
       elixir.setup {
-        -- nextls = {
-        --   enable = true,
-        --   init_options = {
-        --     mix_env = 'dev',
-        --     mix_target = 'host',
-        --     experimental = {
-        --       completions = {
-        --         enable = false, -- control if completions are enabled. defaults to false
-        --       },
-        --     },
-        --   },
-        --   on_attach = function(client, bufnr)
-        --     require('which-key').register {
-        --       ['<leader>x'] = { name = 'Eli[x]ir', _ = 'which_key_ignore' },
-        --     }
-        --     vim.keymap.set('n', '<space>xa', ':Elixir nextls alias-refactor<cr>', { desc = '[a]lias refactor', buffer = true, noremap = true })
-        --     vim.keymap.set('n', '<space>xf', ':Elixir nextls from-pipe<cr>', { desc = '[f]rom pipe', buffer = true, noremap = true })
-        --     vim.keymap.set('n', '<space>xt', ':Elixir nextls to-pipe<cr>', { desc = '[t]o pipe', buffer = true, noremap = true })
-        --
-        --     require('lspconfig').tailwindcss.setup {
-        --       filetypes = { 'html', 'elixir', 'eelixir', 'heex' },
-        --       init_options = {
-        --         userLanguages = {
-        --           elixir = 'html-eex',
-        --           eelixir = 'html-eex',
-        --           heex = 'html-eex',
-        --         },
-        --       },
-        --       settings = {
-        --         tailwindCSS = {
-        --           experimental = {
-        --             classRegex = {
-        --               'class[:]\\s*"([^"]*)"',
-        --             },
-        --           },
-        --         },
-        --       },
-        --     }
-        --   end,
-        -- },
+        nextls = {
+          enable = true,
+          init_options = {
+            mix_env = 'dev',
+            mix_target = 'host',
+            experimental = {
+              completions = {
+                enable = false, -- control if completions are enabled. defaults to false
+              },
+            },
+          },
+          on_attach = function(client, bufnr)
+            require('which-key').register {
+              ['<leader>x'] = { name = 'Eli[x]ir', _ = 'which_key_ignore' },
+            }
+            vim.keymap.set('n', '<space>xa', ':Elixir nextls alias-refactor<cr>', { desc = '[a]lias refactor', buffer = true, noremap = true })
+            vim.keymap.set('n', '<space>xf', ':Elixir nextls from-pipe<cr>', { desc = '[f]rom pipe', buffer = true, noremap = true })
+            vim.keymap.set('n', '<space>xt', ':Elixir nextls to-pipe<cr>', { desc = '[t]o pipe', buffer = true, noremap = true })
+
+            require('lspconfig').tailwindcss.setup {
+              filetypes = { 'html', 'elixir', 'eelixir', 'heex' },
+              init_options = {
+                userLanguages = {
+                  elixir = 'html-eex',
+                  eelixir = 'html-eex',
+                  heex = 'html-eex',
+                },
+              },
+              settings = {
+                tailwindCSS = {
+                  experimental = {
+                    classRegex = {
+                      'class[:]\\s*"([^"]*)"',
+                    },
+                  },
+                },
+              },
+            }
+          end,
+        },
         credo = {},
         elixirls = {
           enable = false,
@@ -128,8 +128,8 @@ return {
             enableTestLenses = false,
           },
           on_attach = function(client, bufnr)
-            require('which-key').register {
-              ['<leader>x'] = { name = 'Eli[x]ir', _ = 'which_key_ignore' },
+            require('which-key').add {
+              { '<leader>x', group = 'Eli[x]ir' },
             }
             vim.keymap.set('n', '<space>xP', ':ElixirFromPipe<cr>', { buffer = true, noremap = true })
             vim.keymap.set('n', '<space>xp', ':ElixirToPipe<cr>', { buffer = true, noremap = true })
