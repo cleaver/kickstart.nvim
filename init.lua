@@ -138,7 +138,7 @@ vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 600
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -283,6 +283,7 @@ require('lazy').setup({
     config = function() -- This is the function that runs, AFTER loading
       require('which-key').setup {
         icons = {
+          separator = '→', -- symbol used between a key and it's label
           -- set icon mappings to true if you have a Nerd Font
           mappings = vim.g.have_nerd_font,
           -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
@@ -632,7 +633,24 @@ require('lazy').setup({
         -- But for many setups, the LSP (`tsserver`) will work just fine
         -- tsserver = {},
         -- tailwind
-        tailwindcss = {},
+        tailwindcss = {
+          filetypes = {
+            'html',
+            'elixir',
+            'eelixir',
+            'heex',
+            'javascript',
+            'javascriptreact',
+            'typescript',
+            'typescriptreact',
+            'svelte',
+            'vue',
+            'css',
+            'scss',
+            'less',
+            'stylus',
+          },
+        },
 
         lua_ls = {
           -- cmd = {...},
@@ -714,8 +732,12 @@ require('lazy').setup({
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         javascriptreact = { { 'prettierd', 'prettier' }, { 'eslint_d', 'eslint' } },
-        javascript = { 'prettierd', 'prettier', stop_after_first = true }, { 'eslint_d', 'eslint', stop_after_first = true } },
-        typescript = { { 'prettierd', 'prettier', stop_after_first = true }, { 'eslint_d', 'eslint', stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        { 'eslint_d', 'eslint', stop_after_first = true },
+      },
+      typescript = {
+        { 'prettierd', 'prettier', stop_after_first = true },
+        { 'eslint_d', 'eslint', stop_after_first = true },
         typescriptreact = { { 'prettierd', 'prettier' }, { 'eslint_d', 'eslint' } },
       },
     },
