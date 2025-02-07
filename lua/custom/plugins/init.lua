@@ -173,6 +173,17 @@ return {
       -- refer to the configuration section below
     },
   },
+  -- {
+  --   'folke/snacks.nvim',
+  --   ---@type snacks.Config
+  --   opts = {
+  --     picker = {
+  --       -- your picker configuration comes here
+  --       -- or leave it empty to use the default settings
+  --       -- refer to the configuration section below
+  --     },
+  --   },
+  -- },
   {
     'olimorris/persisted.nvim',
     lazy = false,
@@ -224,5 +235,9 @@ return {
       vim.g.gruvbox_material_palette = 'material'
       vim.cmd.colorscheme 'gruvbox-material'
     end,
+  },
+  {
+    'OXY2DEV/markview.nvim',
+    lazy = false,
   },
 }
